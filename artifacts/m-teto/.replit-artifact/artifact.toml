@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "M-Teto"
+version = "1.0.0"
+id = "artifacts/m-teto"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+localPort = 26247
+name = "web"
+paths = ["/"]
+
+[services.development]
+run = "pnpm --filter @workspace/m-teto run dev"
+
+[services.env]
+PORT = "26247"
+BASE_PATH = "/"
+
+[services.production]
+build = ["pnpm", "--filter", "@workspace/m-teto", "run", "build"]
+publicDir = "artifacts/m-teto/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"

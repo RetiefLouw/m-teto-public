@@ -1,0 +1,48 @@
+import { Router, type IRouter } from "express";
+import healthRouter from "./health";
+import authRouter from "./auth";
+import providersRouter from "./providers";
+import casesRouter from "./cases";
+import articlesRouter from "./articles";
+import profileRouter from "./profile";
+import pointsRouter from "./points";
+import squareRouter from "./square";
+import quizRouter from "./quiz";
+import searchRouter from "./search";
+import assessmentRouter from "./assessment";
+import tetoRouter from "./teto";
+import adminRouter from "./admin";
+import searchLogRouter from "./searchLog";
+import eventsRouter from "./events";
+import adminIntelligenceRouter from "./adminIntelligence";
+import justiceRouter from "./justice";
+import universityRouter from "./university";
+import legalDocsRouter from "./legalDocs";
+import caseTrackingRouter from "./caseTracking";
+import serviceProviderRouter from "./serviceProvider";
+
+const router: IRouter = Router();
+
+router.use(healthRouter);
+router.use(authRouter);
+router.use(providersRouter);
+router.use(casesRouter);
+router.use(articlesRouter);
+router.use(profileRouter);
+router.use(pointsRouter);
+router.use(squareRouter);
+router.use(quizRouter);
+router.use("/search", searchRouter);
+router.use("/onboarding", assessmentRouter);
+router.use("/teto", tetoRouter);
+router.use(adminRouter);
+router.use("/search-log", searchLogRouter);
+router.use(eventsRouter);
+router.use(adminIntelligenceRouter);
+router.use(justiceRouter);
+router.use(universityRouter);
+router.use(legalDocsRouter);
+router.use(caseTrackingRouter);
+router.use(serviceProviderRouter);
+
+export default router;

@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/service-provider/"
+title = "M-TETO Service Provider Tracking System"
+version = "1.0.0"
+id = "artifacts/service-provider"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+localPort = 21669
+name = "web"
+paths = ["/service-provider/"]
+
+[services.development]
+run = "pnpm --filter @workspace/service-provider run dev"
+
+[services.env]
+PORT = "21669"
+BASE_PATH = "/service-provider/"
+
+[services.production]
+build = ["pnpm", "--filter", "@workspace/service-provider", "run", "build"]
+publicDir = "artifacts/service-provider/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"

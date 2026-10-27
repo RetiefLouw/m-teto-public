@@ -1,0 +1,360 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400..900;1,400..900&family=Fredoka:wght@400..700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --font-sans: 'Nunito', sans-serif;
+  --font-display: 'Fredoka', sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  /* M-TETO Brand Palette — fun, youthful, vibrant */
+  --background: 340 30% 99%;        /* Near white with warm pink tint */
+  --foreground: 340 25% 15%;        /* Deep warm dark */
+
+  --card: 0 0% 100%;
+  --card-foreground: 340 25% 15%;
+  --card-border: 340 30% 92%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 340 25% 15%;
+  --popover-border: 340 30% 92%;
+
+  --primary: 340 85% 56%;           /* M-TETO Hot Pink #E8215D */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 15 88% 68%;          /* Coral / salmon #F4826C */
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 340 20% 95%;
+  --muted-foreground: 340 15% 50%;
+
+  --accent: 35 95% 65%;             /* Warm Gold #F7B56A */
+  --accent-foreground: 340 25% 15%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 340 20% 90%;
+  --input: 340 20% 90%;
+  --ring: 340 85% 56%;
+
+  --radius: 1.25rem;
+}
+
+.dark {
+  --background: 340 30% 8%;
+  --foreground: 340 20% 96%;
+
+  --card: 340 25% 12%;
+  --card-foreground: 340 20% 96%;
+  --card-border: 340 25% 20%;
+
+  --popover: 340 25% 12%;
+  --popover-foreground: 340 20% 96%;
+  --popover-border: 340 25% 20%;
+
+  --primary: 340 85% 62%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 15 80% 60%;
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 340 20% 18%;
+  --muted-foreground: 340 15% 65%;
+
+  --accent: 35 90% 58%;
+  --accent-foreground: 340 25% 10%;
+
+  --destructive: 0 70% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 340 25% 22%;
+  --input: 340 25% 22%;
+  --ring: 340 85% 62%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    @apply font-bold tracking-tight text-foreground;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-background/90 backdrop-blur-xl border border-border/50 shadow-sm;
+  }
+
+  .brand-gradient {
+    background: linear-gradient(135deg, #E8215D 0%, #C0392B 45%, #F4826C 80%, #F7B56A 100%);
+  }
+
+  .brand-gradient-text {
+    background: linear-gradient(135deg, #E8215D 0%, #C0392B 40%, #F4826C 75%, #F7B56A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Poodle-red gradient (deeper, richer) */
+  .poodle-gradient {
+    background: linear-gradient(135deg, #8B1A1A 0%, #C0392B 50%, #E8215D 100%);
+  }
+
+  .poodle-gradient-text {
+    background: linear-gradient(135deg, #C0392B 0%, #E8215D 60%, #F4826C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Poodle fur texture shimmer */
+  .poodle-fur-shimmer {
+    background: radial-gradient(ellipse 80% 40% at 30% 30%, rgba(255,255,255,0.18) 0%, transparent 60%),
+                linear-gradient(135deg, #C0392B 0%, #8B1A1A 100%);
+  }
+
+  /* Y2K / Intergalactic utilities */
+  .y2k-glow {
+    box-shadow: 0 0 16px rgba(192, 57, 43, 0.45), 0 0 32px rgba(232, 33, 93, 0.2);
+  }
+
+  .y2k-glow-cyan {
+    box-shadow: 0 0 16px rgba(0, 212, 255, 0.4), 0 0 32px rgba(0, 212, 255, 0.15);
+  }
+
+  .y2k-border {
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    outline: 2px solid #E8215D40;
+    outline-offset: 2px;
+  }
+
+  .cosmic-bg {
+    background:
+      radial-gradient(ellipse 120% 60% at 50% 0%, rgba(232,33,93,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 40% at 80% 100%, rgba(244,130,108,0.06) 0%, transparent 50%),
+      linear-gradient(180deg, #fff8fe 0%, #ffffff 40%, #f0f8ff 100%);
+  }
+
+  .star-field::before {
+    content: "✦";
+    position: absolute;
+    animation: twinkle 2.5s infinite;
+  }
+
+  /* Scrollbar hide */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.7; transform: scale(1.3) rotate(20deg); }
+}
+
+@keyframes float-up {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes tetoBob {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  25% { transform: translateY(-4px) rotate(1deg); }
+  50% { transform: translateY(-7px) rotate(-1deg); }
+  75% { transform: translateY(-3px) rotate(2deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY — WCAG 2.1 AA (Global — always active)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Global focus-visible — applies to ALL users (keyboard/switch/screen reader) */
+:focus-visible {
+  outline: 3px solid #E8215D !important;
+  outline-offset: 3px !important;
+  border-radius: 6px !important;
+}
+
+/* Minimum touch target — WCAG 2.5.5 (44×44 CSS px) */
+button:not(.skip-nav),
+[role="button"],
+a[href],
+[role="menuitem"],
+[role="tab"],
+[role="option"] {
+  min-height: 44px;
+}
+
+/* All decorative icons hidden from screen reader */
+[aria-hidden="true"] { speak: none; }
+
+/* Live regions */
+[aria-live] { min-height: 0; }
+
+/* Deaf mode — enhance visual alerts and notifications */
+.a11y-deaf-mode [role="alert"],
+.a11y-deaf-mode [aria-live="assertive"],
+.a11y-deaf-mode [aria-live="polite"] {
+  border: 3px solid #E8215D !important;
+  font-weight: bold !important;
+  background: #FFF0F3 !important;
+}
+/* Captions visible when deaf mode is on */
+.a11y-deaf-mode .caption-hidden {
+  display: block !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY CLASSES — Applied via AccessibilityContext
+   ═══════════════════════════════════════════════════════════════ */
+
+/* High Contrast */
+.a11y-high-contrast {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 5%;
+  --card-foreground: 0 0% 100%;
+  --border: 0 0% 40%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 80%;
+  filter: contrast(1.3);
+}
+.a11y-high-contrast body {
+  background: #000 !important;
+  color: #fff !important;
+}
+.a11y-high-contrast .bg-white,
+.a11y-high-contrast .bg-gray-50,
+.a11y-high-contrast .bg-slate-50 {
+  background-color: #111 !important;
+  color: #fff !important;
+}
+.a11y-high-contrast .text-gray-500,
+.a11y-high-contrast .text-gray-400,
+.a11y-high-contrast .text-muted-foreground {
+  color: #ccc !important;
+}
+
+/* Large Text */
+.a11y-large-text {
+  font-size: 120% !important;
+  line-height: 1.7 !important;
+}
+.a11y-large-text button,
+.a11y-large-text input,
+.a11y-large-text select,
+.a11y-large-text textarea {
+  font-size: 1.1em !important;
+  min-height: 48px !important;
+}
+
+/* Dyslexia-Friendly Font */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/ttf/OpenDyslexic-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-display: swap;
+}
+.a11y-dyslexia {
+  font-family: 'OpenDyslexic', sans-serif !important;
+  letter-spacing: 0.05em;
+  word-spacing: 0.15em;
+  line-height: 1.8 !important;
+}
+
+/* Reduce Motion */
+.a11y-reduce-motion *,
+.a11y-reduce-motion *::before,
+.a11y-reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* Keyboard Focus Mode */
+.a11y-keyboard :focus {
+  outline: 3px solid #E8215D !important;
+  outline-offset: 3px !important;
+  border-radius: 4px !important;
+}
+.a11y-keyboard :focus:not(:focus-visible) {
+  outline: none !important;
+}
+.a11y-keyboard :focus-visible {
+  outline: 3px solid #E8215D !important;
+  outline-offset: 3px !important;
+}
+
+/* Skip navigation */
+.skip-nav {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #E8215D;
+  color: white;
+  padding: 8px 16px;
+  z-index: 9999;
+  font-weight: bold;
+  border-radius: 0 0 8px 0;
+  transition: top 0.2s;
+}
+.skip-nav:focus {
+  top: 0;
+}

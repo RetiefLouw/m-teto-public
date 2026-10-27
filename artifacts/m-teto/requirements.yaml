@@ -1,0 +1,17 @@
+packages:
+  "framer-motion": "For smooth page transitions, timeline reveals, and modal animations"
+  "date-fns": "For formatting case dates and calculating overdue statuses"
+  "lucide-react": "For UI icons"
+
+images:
+  - path: "artifacts/m-teto/public/images/hero-illustration.png"
+    description: "Warm, empathetic, abstract digital illustration of a community or holding hands, in dark teal and warm amber tones, symbolizing support and justice"
+    aspect_ratio: "16:9"
+  - path: "artifacts/m-teto/public/images/auth-bg.png"
+    description: "Soft gradient mesh background with warm golden hour colors and deep teal, conveying safety and hope"
+    aspect_ratio: "9:16"
+
+notes:
+  - Using generated API hooks from @workspace/api-client-react
+  - Using useAuth from @workspace/replit-auth-web for authentication
+  - Mobile-first PWA design centered on desktop with max-width 430px
