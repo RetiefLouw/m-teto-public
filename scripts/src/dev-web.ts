@@ -2,21 +2,32 @@ import { spawn, type ChildProcess } from "node:child_process";
 import { once } from "node:events";
 import { existsSync, readFileSync } from "node:fs";
 import { createServer, request as httpRequest } from "node:http";
+import { createServer as createNetServer } from "node:net";
 import { resolve } from "node:path";
 
 const ROOT_DIR = resolve(import.meta.dirname, "../..");
 const ENV_PATH = resolve(ROOT_DIR, ".env");
-const WEB_PORT = 3000;
-const API_PORT = process.env.API_PORT ? Number(process.env.API_PORT) : 5555;
-const FRONTEND_PORT = 5173;
+const rawArgs = process.argv.slice(2);
+const args = new Set(rawArgs);
+
+function getPortOption(name: string, fallback: number): number {
+  const value = rawArgs.find((arg) => arg.startsWith(`--${name}=`))?.split("=", 2)[1];
+  const port = value === undefined ? fallback : Number(value);
+  if (!Number.isInteger(port) || port < 1 || port > 65_535) {
+    throw new Error(`Invalid --${name} value: ${value}`);
+  }
+  return port;
+}
+
+const WEB_PORT = getPortOption("web-port", 3000);
+const API_PORT = getPortOption("api-port", 5555);
+const FRONTEND_PORT = getPortOption("frontend-port", 5173);
 const DB_CONTAINER = "mteto-postgres";
-const DEFAULT_DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/mteto";
+const DEFAULT_DATABASE_URL = "postgresql://postgres:postgres@127.0.0.1:5432/mteto";
 const STARTUP_TIMEOUT_MS = 90_000;
 
-const args = new Set(process.argv.slice(2));
-
 if (args.has("--help") || args.has("-h")) {
-  console.log(`Usage: pnpm run dev:web\n\nStarts the learner web app locally by ensuring Postgres is running, applying the Drizzle schema, launching the API and Vite frontend, and exposing both on http://127.0.0.1:${WEB_PORT}.`);
+  console.log(`Usage: corepack pnpm --dir scripts exec tsx src/dev-web.ts [--web-port=3000] [--api-port=5555] [--frontend-port=5173]\n\nStarts the learner web app locally by ensuring Postgres is running, applying the Drizzle schema, launching the API and Vite frontend, and exposing both on http://127.0.0.1:${WEB_PORT}.`);
   process.exit(0);
 }
 
@@ -231,6 +242,30 @@ async function ensureDockerAvailable(): Promise<void> {
   await runDocker(["--version"]);
 }
 
+async function ensurePortAvailable(
+  port: number,
+  label: string,
+  option: string,
+): Promise<void> {
+  await new Promise<void>((resolvePromise, reject) => {
+    const server = createNetServer();
+    server.once("error", () => reject(new Error(
+      `${label} port ${port} is already in use. Choose another with --${option}-port=...`,
+    )));
+    server.listen(port, "127.0.0.1", () => {
+      server.close((error) => error ? reject(error) : resolvePromise());
+    });
+  });
+}
+
+async function ensureLocalPortsAvailable(): Promise<void> {
+  await Promise.all([
+    ensurePortAvailable(WEB_PORT, "web", "web"),
+    ensurePortAvailable(API_PORT, "api", "api"),
+    ensurePortAvailable(FRONTEND_PORT, "frontend", "frontend"),
+  ]);
+}
+
 async function ensurePostgres(): Promise<void> {
   log("Ensuring local PostgreSQL is available in Docker...");
   await ensureDockerAvailable();
@@ -296,6 +331,7 @@ function startApi(): ChildProcess {
   return spawnManagedProcess("api", "pnpm", ["--dir", "artifacts/api-server", "run", "dev"], {
     ...sharedEnv,
     NODE_ENV: "development",
+    HOST: "127.0.0.1",
     PORT: String(API_PORT),
   });
 }
@@ -310,7 +346,12 @@ function startFrontend(): ChildProcess {
 
   delete env["REPL_ID"];
 
-  return spawnManagedProcess("web", "pnpm", ["--dir", "artifacts/m-teto", "run", "dev"], env);
+  return spawnManagedProcess(
+    "web",
+    "pnpm",
+    ["--dir", "artifacts/m-teto", "run", "dev:local"],
+    env,
+  );
 }
 
 async function startProxy(): Promise<void> {
@@ -346,7 +387,7 @@ async function startProxy(): Promise<void> {
     incomingRequest.pipe(proxyRequest, { end: true });
   });
 
-  proxyServer.listen(WEB_PORT, "0.0.0.0");
+  proxyServer.listen(WEB_PORT, "127.0.0.1");
   await once(proxyServer, "listening");
 }
 
@@ -389,6 +430,7 @@ process.on("SIGTERM", () => {
 });
 
 async function main(): Promise<void> {
+  await ensureLocalPortsAvailable();
   await ensurePostgres();
   await applySchema();
   startApi();

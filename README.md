@@ -22,10 +22,11 @@ The project aims to combine:
 ## Run the learner web app locally
 
 ```bash
-pnpm install && pnpm run dev:web
+corepack pnpm install --frozen-lockfile
+corepack pnpm run dev:web
 ```
 
-That command starts local Postgres in Docker if needed, applies the schema, launches the API and learner web app, and serves everything at `http://127.0.0.1:3000`.
+This needs Node.js 24, Corepack, and Docker. It starts a local Postgres database, applies the schema, seeds local learning and service-directory content, and serves the app at `http://127.0.0.1:3000`. No `.env` file or API key is needed for the learner preview. Optional sign-in and AI features need credentials; see [local development](docs/local-development.md).
 
 ## Read more
 
