@@ -39,9 +39,10 @@ export function MobileLayout({ children, title, showBack }: MobileLayoutProps) {
 
   const totalPoints = pointsData?.totalPoints ?? profileData?.profile?.totalPoints ?? 0;
   const isHome = location === "/explore" || location === "/" || location === "";
+  const isWideBrowsePage = ["/directory", "/learn"].includes(location);
 
   return (
-    <div className="mx-auto max-w-[430px] w-full min-h-screen bg-background relative flex flex-col shadow-2xl overflow-hidden border-x border-border/50">
+    <div className={`mx-auto w-full min-h-screen bg-background relative flex flex-col shadow-2xl overflow-hidden border-x border-border/50 ${isWideBrowsePage ? "max-w-6xl" : "max-w-[430px]"}`}>
       {/* Skip Navigation */}
       <a
         href="#main-content"
@@ -163,7 +164,7 @@ export function MobileLayout({ children, title, showBack }: MobileLayoutProps) {
 
       {/* Bottom Navigation — 5 items with Emergency as center CTA */}
       <nav
-        className="fixed bottom-0 w-full max-w-[430px] z-50 bg-white/95 backdrop-blur-xl border-t border-border/60 px-1 pt-1.5 pb-2 rounded-t-3xl pb-safe shadow-lg"
+        className={`fixed bottom-0 inset-x-0 mx-auto w-full z-50 bg-white/95 backdrop-blur-xl border-t border-border/60 px-1 pt-1.5 pb-2 rounded-t-3xl pb-safe shadow-lg ${isWideBrowsePage ? "max-w-6xl" : "max-w-[430px]"}`}
         role="navigation"
         aria-label="Main navigation"
       >

@@ -111,7 +111,7 @@ export default function Directory() {
 
   return (
     <MobileLayout title="Helpers">
-      <div className="px-4 pt-4 pb-8 space-y-4">
+      <div className="mx-auto w-full max-w-5xl px-4 pt-4 pb-8 space-y-4">
 
         {/* Banner */}
         <div className="bg-gradient-to-r from-purple-500/10 to-primary/10 rounded-2xl p-4 border border-purple-200/40">
@@ -179,7 +179,7 @@ export default function Directory() {
         )}
 
         {/* Provider list */}
-        <div className="space-y-2.5">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {isLoading ? (
             Array.from({ length: 5 }).map((_, i) => (
               <Card key={i} className="rounded-2xl border-border/50 p-4">
@@ -194,7 +194,7 @@ export default function Directory() {
               </Card>
             ))
           ) : providers.length === 0 ? (
-            <div className="text-center py-12 px-4">
+            <div className="text-center py-12 px-4 md:col-span-2">
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
                 <Search className="w-8 h-8 text-muted-foreground/40" />
               </div>

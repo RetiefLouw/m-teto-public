@@ -153,7 +153,7 @@ export default function Learn() {
 
   return (
     <MobileLayout title={activeModule === "university" ? "M-Teto University" : activeModule === "justice" ? "Justice Roadmap" : "Knowledge Base"}>
-      <div className="px-4 pt-4 pb-8 space-y-5">
+      <div className="mx-auto w-full max-w-5xl px-4 pt-4 pb-8 space-y-5">
 
         {/* Module Tabs */}
         <div className="flex gap-1 bg-muted/40 rounded-2xl p-1">
@@ -379,7 +379,7 @@ export default function Learn() {
         </div>
 
         {/* Content List — hidden on Justice tab */}
-        <div className={`space-y-3 ${activeModule === "justice" ? "hidden" : ""}`}>
+        <div className={`grid grid-cols-1 gap-3 md:grid-cols-2 ${activeModule === "justice" ? "hidden" : ""}`}>
           {isLoading ? (
             Array.from({ length: 3 }).map((_, i) => (
               <Card key={i} className="rounded-3xl border-border p-5 animate-pulse bg-muted/20 h-28"></Card>
